@@ -17,7 +17,7 @@ class Blackjack extends Component {
     gameOver: false,
     winner: null,
     cpuTurn: false,
-    reasonWin: null
+    reasonWin: null,
   }
 
   //update the score of either player by adding the new card value
@@ -124,7 +124,7 @@ class Blackjack extends Component {
     }, 800);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.newGame();
   }
 
