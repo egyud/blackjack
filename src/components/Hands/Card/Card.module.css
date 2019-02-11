@@ -1,0 +1,43 @@
+.Card {
+  display: flex;
+  flex-direction: column;
+  /* width: 120px;
+  height: 168px; */
+  width: 80px;
+  height: 120px;
+  border: 2px solid black;
+}
+
+.Top {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  height: 10%;
+}
+
+.Mid {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 80%;
+}
+
+.Bottom {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  height: 10%;
+}
+
+@media(min-width: 500px) {
+  .Card {
+    width: 120px;
+    height: 160px;
+  }
+}
