@@ -18,6 +18,8 @@ class Blackjack extends Component {
     winner: null,
     cpuTurn: false,
     reasonWin: null,
+    bank: 900,
+    betAmount: 100
   }
 
   //update the score of either player by adding the new card value
@@ -61,19 +63,33 @@ class Blackjack extends Component {
     let cpu = this.state.cpuTotal;
     if (user === 21 && cpu !== 21) {
       //setting cpuTurn to true here is for displaying the hidden dealer card
-      this.setState({cpuTurn: true, winner: 'USER', gameOver: true});
+      this.setState(prevState => ({
+        cpuTurn: true, winner: 'USER', 
+        gameOver: true,
+        bank: prevState.bank + prevState.betAmount
+      }));
       //plus user gets 1.5 times his bet back
     } else if (user === 21 && cpu === 21) {
       this.setState({cpuTurn: true, winner: 'NOBODY', gameOver: true});
     } else if (user !== 21 && cpu === 21) {
-      this.setState({cpuTurn: true, winner: 'DEALER', gameOver: true});
+      this.setState(prevState => ({
+        cpuTurn: true, 
+        winner: 'DEALER', 
+        gameOver: true,
+        bank: prevState.bank + prevState.betAmount
+      }));
     }
   };
 
   bustCheck = () => {
     //If user score is above 21, and there are no aces in hand(or all are using a value of 1)...then user busts
     if (this.state.userTotal > 21 && this.state.userAces === 0) {
-      this.setState({gameOver: true, winner: "DEALER", cpuTurn: true})
+      this.setState(prevState => ({
+        gameOver: true,
+        winner: "DEALER",
+        cpuTurn: true,
+        bank: prevState.bank - prevState.betAmount
+      }))
       //if the user has an ace and the total has gone above 21, change the value of the ace to 1 (by subtracting 10), and take the ace off the ace count(for future checks)
     } else if (this.state.userTotal > 21 && this.state.userAces > 0) {
       setTimeout(() => {
@@ -93,7 +109,11 @@ class Blackjack extends Component {
         cpuAces: prevState.cpuAces - 1
       }))
     } else if (this.state.cpuTotal > 21 && this.state.cpuAces === 0) {
-      this.setState({gameOver: true, winner: "USER"})
+      this.setState(prevState => ({
+        gameOver: true, 
+        winner: "USER",
+        bank: prevState.bank + prevState.betAmount
+      }))
     }
 
   }
@@ -113,7 +133,9 @@ class Blackjack extends Component {
       cpuTurn: false,
       //2 below....
       userAces: 0,
-      cpuAces: 0
+      cpuAces: 0,
+      bank: 900,
+      betAmount: 100
     });
 
     this.updateTotal();
@@ -165,7 +187,11 @@ class Blackjack extends Component {
         if (this.state.userTotal > this.state.cpuTotal) {
           if (this.state.cpuAces === 0) {
             //user wins
-            this.setState({gameOver: true, winner: "USER"})
+            this.setState(prevState => ({
+              gameOver: true, 
+              winner: "USER",
+              bank: prevState.bank + prevState.betAmount
+            }))
           } else {
             this.setState(prevState => ({
               cpuAces: prevState.cpuAces - 1,
@@ -174,7 +200,11 @@ class Blackjack extends Component {
           }
         } else if (this.state.cpuTotal > this.state.userTotal) {
           //dealer wins
-          this.setState({gameOver: true, winner: "DEALER"})
+          this.setState(prevState => ({
+            gameOver: true, 
+            winner: "DEALER",
+            bank: prevState.bank - prevState.betAmount
+          }))
         } else {
           //it's a draw
           this.setState({gameOver: true, winner: "NOBODY"})
@@ -253,7 +283,7 @@ class Blackjack extends Component {
 
     return (
       <>
-        <BettingBox />
+        <BettingBox bank={this.state.bank} betAmount={this.state.betAmount}/>
         <ControlBar
           disableButton={this.state.gameOver}
           hitHandler={this.hitHandler}

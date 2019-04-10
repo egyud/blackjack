@@ -3,11 +3,6 @@ import classes from './BettingBox.module.css';
 
 
 class BettingBox extends Component {
-  state = {
-    bank: 900,
-    betAmount: 100
-  }
-
   inputChangeHandler = (event) => {
     event.persist();
     event.preventDefault();
@@ -23,12 +18,12 @@ class BettingBox extends Component {
   }
 
   render() {
-    let max = this.state.bank;
+    let max = this.props.bank;
     return (
       <form className={classes.BettingBox}>
-        <span>Bank: ${this.state.bank}</span>
+        <span>Bank: ${this.props.bank}</span>
         <br/>
-        <input onChange={this.inputChangeHandler} type="number" min="50" max={max} value={this.state.betAmount} step="50"/>
+        <input onChange={this.inputChangeHandler} type="number" min="50" max={max} value={this.props.betAmount} step="50"/>
         <button onClick={this.allInHandler}>All In</button>
       </form>
     )
