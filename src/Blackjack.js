@@ -307,7 +307,8 @@ class Blackjack extends Component {
           bank={this.state.bank} 
           betAmount={this.state.betAmount} 
           allIn={this.allInHandler}
-          betChange={this.betChangeHandler}/>
+          betChange={this.betChangeHandler}
+          gameOver={this.state.gameOver}/>
         <ControlBar
           disableButton={this.state.gameOver}
           hitHandler={this.hitHandler}
