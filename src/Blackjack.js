@@ -117,8 +117,9 @@ class Blackjack extends Component {
     }
 
   }
-
-  newGame = () => {
+  
+  // playAgain will be a boolean, determining whether the game is starting fresh or just a new hand
+  newGame = (playAgain) => {
     //run the shuffle algorithm on the deck of cards
     shuffle(cardDeck);
     //create a hand of 2 cards for both the user and cpu
@@ -134,9 +135,14 @@ class Blackjack extends Component {
       //2 below....
       userAces: 0,
       cpuAces: 0,
-      bank: 900,
       betAmount: 100
     });
+
+    if (!playAgain) {
+      this.setState({
+        bank: 900
+      })
+    }
 
     this.updateTotal();
     setTimeout(() => {
@@ -147,7 +153,7 @@ class Blackjack extends Component {
   }
 
   componentDidMount() {
-    this.newGame();
+    this.newGame(false);
   }
 
   hitHandler = () => {
@@ -288,7 +294,7 @@ class Blackjack extends Component {
           disableButton={this.state.gameOver}
           hitHandler={this.hitHandler}
           standHandler={this.standHandler}
-          newGameHandler={this.newGame}/>
+          newGameHandler={() => this.newGame(true)}/>
         <div className={classes.Msg}>{msg}</div>
         <div className={classes.HandContainer}>
           <div className={classes.Hand}>
