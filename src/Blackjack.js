@@ -19,7 +19,8 @@ class Blackjack extends Component {
     cpuTurn: false,
     reasonWin: null,
     bank: 900,
-    betAmount: 100
+    betAmount: 100,
+    outOfMoney: false
   }
 
   //update the score of either player by adding the new card value
@@ -68,9 +69,11 @@ class Blackjack extends Component {
         gameOver: true,
         bank: Number(prevState.bank) + Number(prevState.betAmount)
       }));
+      this.outOfMoneyCheck();
       //plus user gets 1.5 times his bet back
     } else if (user === 21 && cpu === 21) {
       this.setState({cpuTurn: true, winner: 'NOBODY', gameOver: true});
+      this.outOfMoneyCheck();
     } else if (user !== 21 && cpu === 21) {
       this.setState(prevState => ({
         cpuTurn: true, 
@@ -78,6 +81,7 @@ class Blackjack extends Component {
         gameOver: true,
         bank: Number(prevState.bank) + Number(prevState.betAmount)
       }));
+      this.outOfMoneyCheck();
     }
   };
 
@@ -90,6 +94,7 @@ class Blackjack extends Component {
         cpuTurn: true,
         bank: Number(prevState.bank) - Number(prevState.betAmount)
       }))
+      this.outOfMoneyCheck();
       //if the user has an ace and the total has gone above 21, change the value of the ace to 1 (by subtracting 10), and take the ace off the ace count(for future checks)
     } else if (this.state.userTotal > 21 && this.state.userAces > 0) {
       setTimeout(() => {
@@ -114,6 +119,7 @@ class Blackjack extends Component {
         winner: "USER",
         bank: Number(prevState.bank) + Number(prevState.betAmount)
       }))
+      this.outOfMoneyCheck();
     }
 
   }
@@ -140,7 +146,8 @@ class Blackjack extends Component {
 
     if (!playAgain) {
       this.setState({
-        bank: 900
+        bank: 900,
+        outOfMoney: false
       })
     }
 
@@ -211,6 +218,7 @@ class Blackjack extends Component {
             winner: "DEALER",
             bank: prevState.bank - prevState.betAmount
           }))
+          this.outOfMoneyCheck();
         } else {
           //it's a draw
           this.setState({gameOver: true, winner: "NOBODY"})
@@ -258,6 +266,14 @@ class Blackjack extends Component {
     }))
   }
 
+  outOfMoneyCheck = () => {
+    if (this.state.bank === 0) {
+      this.setState({
+        outOfMoney: true
+      })
+    }
+  }
+
 
   render() {
     let userCards, cpuCards;
@@ -297,7 +313,12 @@ class Blackjack extends Component {
     })
 
     let msg;
-    if (this.state.gameOver) {
+    let playAgain = true;
+    if (this.state.outOfMoney) {
+      msg = <Message>You're out of money!  Nice try, kid.</Message>;
+      playAgain = false;
+    }
+    if (this.state.gameOver && !this.state.outOfMoney) {
       msg = <Message>{`${this.state.winner} WINS`}</Message>
     }
 
@@ -313,7 +334,7 @@ class Blackjack extends Component {
           disableButton={this.state.gameOver}
           hitHandler={this.hitHandler}
           standHandler={this.standHandler}
-          newGameHandler={() => this.newGame(true)}/>
+          newGameHandler={() => this.newGame(playAgain)}/>
         <div className={classes.Msg}>{msg}</div>
         <div className={classes.HandContainer}>
           <div className={classes.Hand}>
