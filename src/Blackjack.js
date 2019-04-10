@@ -66,7 +66,7 @@ class Blackjack extends Component {
       this.setState(prevState => ({
         cpuTurn: true, winner: 'USER', 
         gameOver: true,
-        bank: prevState.bank + prevState.betAmount
+        bank: Number(prevState.bank) + Number(prevState.betAmount)
       }));
       //plus user gets 1.5 times his bet back
     } else if (user === 21 && cpu === 21) {
@@ -76,7 +76,7 @@ class Blackjack extends Component {
         cpuTurn: true, 
         winner: 'DEALER', 
         gameOver: true,
-        bank: prevState.bank + prevState.betAmount
+        bank: Number(prevState.bank) + Number(prevState.betAmount)
       }));
     }
   };
@@ -88,7 +88,7 @@ class Blackjack extends Component {
         gameOver: true,
         winner: "DEALER",
         cpuTurn: true,
-        bank: prevState.bank - prevState.betAmount
+        bank: Number(prevState.bank) - Number(prevState.betAmount)
       }))
       //if the user has an ace and the total has gone above 21, change the value of the ace to 1 (by subtracting 10), and take the ace off the ace count(for future checks)
     } else if (this.state.userTotal > 21 && this.state.userAces > 0) {
@@ -112,7 +112,7 @@ class Blackjack extends Component {
       this.setState(prevState => ({
         gameOver: true, 
         winner: "USER",
-        bank: prevState.bank + prevState.betAmount
+        bank: Number(prevState.bank) + Number(prevState.betAmount)
       }))
     }
 
@@ -196,7 +196,7 @@ class Blackjack extends Component {
             this.setState(prevState => ({
               gameOver: true, 
               winner: "USER",
-              bank: prevState.bank + prevState.betAmount
+              bank: Number(prevState.bank) + Number(prevState.betAmount)
             }))
           } else {
             this.setState(prevState => ({
@@ -244,6 +244,20 @@ class Blackjack extends Component {
 
   }
 
+  betChangeHandler = (event) => {
+    event.persist();
+    event.preventDefault();
+    this.setState({
+      betAmount: event.target.value
+    })
+  }
+
+  allInHandler = () => {
+    this.setState(prevState => ({
+      betAmount: prevState.bank
+    }))
+  }
+
 
   render() {
     let userCards, cpuCards;
@@ -289,7 +303,11 @@ class Blackjack extends Component {
 
     return (
       <>
-        <BettingBox bank={this.state.bank} betAmount={this.state.betAmount}/>
+        <BettingBox 
+          bank={this.state.bank} 
+          betAmount={this.state.betAmount} 
+          allIn={this.allInHandler}
+          betChange={this.betChangeHandler}/>
         <ControlBar
           disableButton={this.state.gameOver}
           hitHandler={this.hitHandler}
