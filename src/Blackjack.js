@@ -300,7 +300,8 @@ class Blackjack extends Component {
         )
       } else if (i === 1 && this.state.cpuTurn === false){
         return (
-          <Card />
+          <Card 
+          key={`${card.type}-${i}`}/>
         )
       } else if (this.state.cpuTurn === true) {
         return (
