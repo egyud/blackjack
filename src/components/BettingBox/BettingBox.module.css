@@ -1,6 +1,10 @@
 .BettingBox {
-  background: #ccc;
+  background: black;
   width: 50%;
   margin: 3rem auto;
   padding: 2rem;
+  box-shadow: 0.1rem 0.2rem 0.2rem #FFD700,
+  -0.1rem -0.2rem 0.2rem #FFD700;
+  border-radius: 25px;
+  color: white;
 }
