@@ -260,7 +260,8 @@ class Blackjack extends Component {
     })
   }
 
-  allInHandler = () => {
+  allInHandler = (e) => {
+    e.preventDefault();
     this.setState(prevState => ({
       betAmount: prevState.bank
     }))
