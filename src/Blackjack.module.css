@@ -4,7 +4,7 @@
   justify-content: center;
   height: 370px;
   width: 220px;
-  border: none;
+  /* border: none; */
 }
 
 .HandContainer {
@@ -19,7 +19,6 @@
 
 @media(min-width: 570px) {
   .Hand {
-    border: 3px solid white;;
     width: 300px;
   }
 
