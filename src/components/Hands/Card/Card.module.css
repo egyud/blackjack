@@ -37,7 +37,7 @@
   height: 10%;
 }
 
-@media(min-width: 500px) {
+@media(min-width: 570px) {
   .Card {
     width: 120px;
     height: 160px;
