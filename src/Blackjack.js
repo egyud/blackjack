@@ -339,11 +339,17 @@ class Blackjack extends Component {
           newGameHandler={() => this.newGame(playAgain)}/>
         <div className={classes.Msg}>{msg}</div>
         <div className={classes.HandContainer}>
-          <div className={classes.Hand}>
-            {userCards}
+          <div>
+            <h4>Your hand</h4>
+            <div className={classes.Hand}>
+              {userCards}
+            </div>
           </div>
-          <div className={classes.Hand}>
-            {cpuCards}
+          <div>
+            <h4>Computer hand</h4>
+            <div className={classes.Hand}>
+              {cpuCards}
+            </div>
           </div>
         </div>
       </>
