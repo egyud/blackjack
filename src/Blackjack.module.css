@@ -1,9 +1,10 @@
 .Hand {
   display: flex;
   flex-flow: row wrap;
+  justify-content: center;
   height: 370px;
   width: 300px;
-  /* border: 1px dashed blue; */
+  border: 3px solid white;
 }
 
 .HandContainer {
@@ -12,7 +13,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
 }
 
 /* @media(min-width: 500px) {
